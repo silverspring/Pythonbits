@@ -546,7 +546,7 @@ if __name__ == "__main__":
 	(options, args) = parser.parse_args()
 	if len(args) != 2:
 		__logerror("Not enough arguments, refer to --help for additional info")
-		exit(1)
+		sys.exit(2)
 	else:
 		filename = args[1]
 		results = search(args[0]).results
@@ -555,7 +555,7 @@ if __name__ == "__main__":
 		imgur = Imgur(filename)
 	else:
 		__logerror("No films found.\n")
-		exit(1)
+		sys.exit(1)
 	if movie.getSummary():
 		print "[b]Description:[/b]"
 		print "[quote]%s[/quote]\n" % movie.summary[0]
