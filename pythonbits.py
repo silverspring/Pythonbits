@@ -571,4 +571,4 @@ if __name__ == "__main__":
 		print "\n[img=%s][/align][/quote]" % imgur.imageurl[1]
 	if movie.findMediaInfo(filename):
 		print "[mediainfo] %s [/mediainfo]" % movie.mediainfo
-	exit(0)
+	sys.exit(0)
