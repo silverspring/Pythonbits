@@ -473,11 +473,7 @@ class imdb(object):
 
 	def findMediaInfo(self, path):
 		try:
-			if(os.name=="nt"):
-				##Must pass Shell=True on Windows, but this is a potential security issue
-				self.mediainfo = subprocess.Popen([r"mediainfo",path], shell=True, stdout=subprocess.PIPE).communicate()[0]
-			else:
-                                self.mediainfo = subprocess.Popen([r"mediainfo",path], stdout=subprocess.PIPE).communicate()[0]
+                        self.mediainfo = subprocess.Popen([r"mediainfo",path], stdout=subprocess.PIPE).communicate()[0]
 		except OSError:
 			sys.stderr.write("Error: Media Info not installed, refer to http://mediainfo.sourceforge.net/en for installation")
 			exit(1)
