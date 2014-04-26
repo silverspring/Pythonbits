@@ -1,6 +1,18 @@
 #! /bin/sh
-cp BeautifulSoup.py /usr/local/bin/
-cp MultipartPostHandler.py /usr/local/bin/
-cp microdata.py /usr/local/bin
-cp pythonbits.py /usr/local/bin/pythonbits
-chmod o+x /usr/local/bin/pythonbits
+PREFIX=/usr/local
+
+while getopts ":p:" Option
+do
+    case $Option in
+        p) PREFIX=$OPTARG
+    esac
+done
+
+INSTALLDIR=$PREFIX/bin
+echo "Installing to $INSTALLDIR"
+
+cp BeautifulSoup.py $INSTALLDIR
+cp MultipartPostHandler.py $INSTALLDIR
+cp microdata.py $INSTALLDIR
+cp pythonbits.py $INSTALLDIR/pythonbits
+chmod o+x $INSTALLDIR/pythonbits
