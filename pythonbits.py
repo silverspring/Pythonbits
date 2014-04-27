@@ -645,14 +645,30 @@ class Imgur(object):
 		stops = range(20,81,60/(self.shots-1))
 		imgs = [ ]
 		try:
-			count=0
 			for stop in stops:
-				imgs.append(TMPDIR+"screen%d.png" % count)
-				subprocess.Popen([r"ffmpeg","-ss",str((self.duration * stop)/100), "-vframes", "1", "-i", self.path , "-y", "-sameq", "-f", "image2", imgs[-1] ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).wait()
-				count+=1
+				imgfilename = TMPDIR+"screen%d.png" % len(imgs)
+				ffmpegproc =subprocess.Popen([r"/usr/bin/ffmpeg",
+						"-ss", str((self.duration * stop)/100),
+						"-i", self.path ,
+						"-vframes", "1",
+						"-y",
+						"-qscale", "0",
+						"-f","image2",
+						imgfilename],
+						stdout=subprocess.PIPE, 
+						stderr=subprocess.STDOUT)
+				stdoutdata, stderrdata = ffmpegproc.communicate()
+				if ffmpegproc.returncode != 0:
+					raise Exception("Ffmpeg call failed, error text:\n" +
+									str(stdoutdata))
+				imgs.append(imgfilename)
 		except OSError:
 			sys.stderr.write("Error: Ffmpeg not installed, refer to http://www.ffmpeg.org/download.html for installation")
 			exit(1)
+		except Exception as e:
+			print(str(e))
+			exit(1)
+
 		opener = urllib2.build_opener(MultipartPostHandler.MultipartPostHandler)
 		
 		try:
